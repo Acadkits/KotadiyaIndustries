@@ -1,0 +1,198 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * KOTADIYA INDUSTRIES — Dark Navy Premium Industrial Design System
+ *
+ * Palette: midnight navy / steel blue / platinum / brand lime accent
+ * All colors in oklch. Do not hard-code hex/rgb in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-steel: var(--steel);
+  --color-steel-light: var(--steel-light);
+  --color-silver: var(--silver);
+  --color-tech: var(--tech);
+
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  --radius: 0.375rem;
+
+  /* Deep midnight navy base */
+  --background: oklch(0.14 0.028 265);
+  --foreground: oklch(0.965 0.008 250);
+
+  /* Steel navy surface for cards */
+  --card: oklch(0.19 0.035 265);
+  --card-foreground: oklch(0.965 0.008 250);
+
+  --popover: oklch(0.19 0.035 265);
+  --popover-foreground: oklch(0.965 0.008 250);
+
+  /* Brand lime green accent (from logo) */
+  --primary: oklch(0.80 0.19 130);
+  --primary-foreground: oklch(0.16 0.04 265);
+
+  /* Brand navy (from logo) */
+  --secondary: oklch(0.30 0.09 270);
+  --secondary-foreground: oklch(0.96 0.008 250);
+
+  --muted: oklch(0.24 0.030 265);
+  --muted-foreground: oklch(0.70 0.020 255);
+
+  --accent: oklch(0.30 0.09 270);
+  --accent-foreground: oklch(0.965 0.008 250);
+
+  --destructive: oklch(0.60 0.235 25);
+  --destructive-foreground: oklch(0.98 0.005 250);
+
+  --border: oklch(0.32 0.040 265);
+  --input: oklch(0.28 0.035 265);
+  --ring: oklch(0.80 0.19 130);
+
+  /* Custom industrial tokens */
+  --steel: oklch(0.30 0.040 265);
+  --steel-light: oklch(0.42 0.040 265);
+  --silver: oklch(0.85 0.012 250);
+  --tech: oklch(0.62 0.10 240);
+
+  /* Metallic gradients & shadows */
+  --gradient-metal: linear-gradient(135deg, oklch(0.44 0.045 265) 0%, oklch(0.22 0.035 265) 45%, oklch(0.34 0.045 265) 100%);
+  --gradient-primary: linear-gradient(135deg, oklch(0.84 0.19 130) 0%, oklch(0.70 0.18 135) 100%);
+  --shadow-industrial: 0 30px 60px -30px oklch(0.06 0.03 265 / 0.75), 0 0 0 1px oklch(0.75 0.10 240 / 0.06);
+  --shadow-glow: 0 0 40px -8px oklch(0.80 0.19 130 / 0.40);
+}
+
+/* Site is dark-only — no light mode class needed */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 17px;
+  }
+
+  @media (min-width: 1280px) {
+    html {
+      font-size: 18px;
+    }
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+
+  ::selection {
+    background: oklch(0.80 0.19 130 / 0.35);
+    color: var(--color-foreground);
+  }
+}
+
+/* Engineering grid utility — cool steel-blue lines */
+@utility eng-grid {
+  background-image:
+    linear-gradient(oklch(0.75 0.10 240 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.75 0.10 240 / 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility eng-grid-fine {
+  background-image:
+    linear-gradient(oklch(0.75 0.10 240 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.75 0.10 240 / 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@utility metallic-border {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, oklch(0.78 0.06 240 / 0.28), oklch(0.60 0.05 240 / 0.03) 40%, oklch(0.78 0.06 240 / 0.28));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@utility text-metallic {
+  background: linear-gradient(180deg, oklch(0.97 0.008 250) 0%, oklch(0.72 0.030 255) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility tech-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.80 0.19 130 / 0.55), oklch(0.75 0.10 240 / 0.35), transparent);
+}
+
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
