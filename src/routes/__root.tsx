@@ -7,7 +7,7 @@ import {
   HeadContent,
 } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "@/components/site/Navbar";

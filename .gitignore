@@ -36,3 +36,7 @@ dist-ssr
 backend/.env
 /supabase/
 AGENTS.md
+
+PASS.MD
+PASS.md
+pass.md
