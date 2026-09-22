@@ -35,6 +35,7 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
@@ -46,7 +47,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <p className="mt-2 text-sm text-muted-foreground">Something went wrong. You can retry or head home.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="rounded-sm bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground"
           >
             Try again
@@ -83,8 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Precision Forge is a B2B industrial website for Kotadiya Industries, showcasing precision engineering and manufacturing capabilities." },
       { property: "og:description", content: "Precision Forge is a B2B industrial website for Kotadiya Industries, showcasing precision engineering and manufacturing capabilities." },
       { name: "twitter:description", content: "Precision Forge is a B2B industrial website for Kotadiya Industries, showcasing precision engineering and manufacturing capabilities." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e83b3c4b-f5b2-43c4-ab70-69d63ff273ae/id-preview-2ec33477--34cc1253-6797-4f55-96ea-8c02cc913deb.lovable.app-1785153953876.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e83b3c4b-f5b2-43c4-ab70-69d63ff273ae/id-preview-2ec33477--34cc1253-6797-4f55-96ea-8c02cc913deb.lovable.app-1785153953876.png" },
+      { property: "og:image", content: "https://r2.dev" },
+      { name: "twitter:image", content: "https://r2.dev" },
     ],
     links: [
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
@@ -111,6 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
+
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();

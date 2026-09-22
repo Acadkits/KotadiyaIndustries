@@ -6,6 +6,16 @@ import { createClient } from "@supabase/supabase-js";
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const PORT = Number(process.env.PORT || 3001);
+function normalizeOrigin(url) {
+  if (!url) return "";
+  try {
+    const u = new URL(url);
+    return `${u.protocol}//${u.host}`.toLowerCase();
+  } catch {
+    return url.replace(/\/+$/, "").trim().toLowerCase();
+  }
+}
+
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "*")
   .split(",")
   .map((s) => s.trim())
@@ -31,18 +41,27 @@ function getOrigin(req) {
 
 function originAllowed(req) {
   if (ALLOWED_ORIGINS.includes("*")) return true;
-  const origin = getOrigin(req);
-  return !!origin && ALLOWED_ORIGINS.includes(origin);
+  const raw = getOrigin(req);
+  if (!raw) return true;
+  const origin = normalizeOrigin(raw);
+  return ALLOWED_ORIGINS.some((allowed) => {
+    if (allowed === "*") return true;
+    const norm = normalizeOrigin(allowed);
+    if (norm === origin) return true;
+    if (origin.endsWith(".acadkits.dev") && norm.endsWith(".acadkits.dev")) return true;
+    return false;
+  });
 }
 
 function corsHeaders(req) {
   const origin = getOrigin(req);
   if (!originAllowed(req)) return {};
   return {
-    "access-control-allow-origin": origin || ALLOWED_ORIGINS[0] || "",
+    "access-control-allow-origin": origin || "*",
     "access-control-allow-credentials": "true",
     "access-control-allow-headers": "content-type, authorization, apikey, x-client-info",
-    "access-control-allow-methods": "GET,POST,OPTIONS",
+    "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+    "access-control-max-age": "86400",
     vary: "Origin",
   };
 }
@@ -466,12 +485,13 @@ async function handle(req, res) {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const { pathname } = url;
 
-    for (const [key, value] of Object.entries(corsHeaders(req))) {
+    const headers = corsHeaders(req);
+    for (const [key, value] of Object.entries(headers)) {
       res.setHeader(key, value);
     }
 
     if (req.method === "OPTIONS") {
-      res.writeHead(204);
+      res.writeHead(204, headers);
       res.end();
       return;
     }
